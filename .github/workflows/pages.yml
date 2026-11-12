@@ -1,9 +1,13 @@
 name: pages
 
-# Publish the static site to GitHub Pages on every push to main.
+# Publish the static site to GitHub Pages on every push to main, and every
+# 3 hours to refresh the release-data snapshot the page falls back to when
+# the visitor's GitHub API quota (60 requests/hour per IP) is used up.
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 */3 * * *" # refresh the release snapshot every 3 hours
   workflow_dispatch:
 
 permissions:
@@ -30,6 +34,14 @@ jobs:
           node --check assets/js/markdown.js
           node --test scripts/test-markdown.mjs
           python3 scripts/check-links.py
+      - name: Snapshot WraithVim release data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p assets/data
+          gh api repos/cachewraith/wraithvim > assets/data/repo.json
+          gh api "repos/cachewraith/wraithvim/releases?per_page=100" > assets/data/releases.json
+          python3 -c "import json; d=json.load(open('assets/data/releases.json')); print(len(d), 'releases snapshotted')"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

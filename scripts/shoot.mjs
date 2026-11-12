@@ -55,6 +55,8 @@ const evaluate = async (expression) => (await send("Runtime.evaluate", { express
 await send("Runtime.enable");
 await send("Log.enable");
 await send("Emulation.setDeviceMetricsOverride", { width, height, deviceScaleFactor: 1, mobile: width < 600 });
+await send("Network.enable");
+if (args.block) await send("Network.setBlockedURLs", { urls: args.block.split(",") }); // e.g. --block "*api.github.com*"
 await send("Page.enable");
 await send("Page.navigate", { url: page });
 await sleep(2500); // fonts, GitHub stats, first paint

@@ -233,36 +233,51 @@
       </li>`;
     }).join("");
   }
+  // Turn GitHub API responses (repo + releases) into what the page shows.
+  function summarize(repo, releases) {
+    const published = releases.filter((r) => !r.draft && !r.prerelease);
+    const downloads = published.reduce(
+      (sum, r) => sum + r.assets.filter((a) => a.name.endsWith(".tar.gz")).reduce((n, a) => n + a.download_count, 0),
+      0,
+    );
+    return {
+      at: Date.now(),
+      downloads,
+      stars: repo.stargazers_count,
+      version: published[0]?.tag_name || "latest",
+      releases: published.slice(0, 10).map((r) => ({
+        tag: r.tag_name, name: r.name || "", date: r.published_at, body: r.body || "", url: r.html_url,
+      })),
+    };
+  }
+  const getJSON = (url) => fetch(url).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${r.status} ${url}`))));
+
   async function loadStats() {
     let cached = null;
     try { cached = JSON.parse(localStorage.getItem(CACHE) || "null"); } catch { /* ignore */ }
     if (cached && Date.now() - cached.at < 30 * 60 * 1000) return applyStats(cached);
     // While loading, show stale notes if we have any.
     if (cached) renderReleases(cached.releases);
+    let stats = null;
     try {
-      const [repo, releases] = await Promise.all([
-        fetch(API).then((r) => (r.ok ? r.json() : Promise.reject(r.status))),
-        fetch(`${API}/releases?per_page=100`).then((r) => (r.ok ? r.json() : Promise.reject(r.status))),
-      ]);
-      const published = releases.filter((r) => !r.draft && !r.prerelease);
-      const downloads = published.reduce(
-        (sum, r) => sum + r.assets.filter((a) => a.name.endsWith(".tar.gz")).reduce((n, a) => n + a.download_count, 0),
-        0,
-      );
-      const stats = {
-        at: Date.now(),
-        downloads,
-        stars: repo.stargazers_count,
-        version: published[0]?.tag_name || "latest",
-        releases: published.slice(0, 10).map((r) => ({
-          tag: r.tag_name, name: r.name || "", date: r.published_at, body: r.body || "", url: r.html_url,
-        })),
-      };
+      // Live data first (freshest right after a release)…
+      const [repo, releases] = await Promise.all([getJSON(API), getJSON(`${API}/releases?per_page=100`)]);
+      stats = summarize(repo, releases);
+    } catch {
+      try {
+        // …then the snapshot saved at deploy time (no API rate limit).
+        const [repo, releases] = await Promise.all([getJSON("assets/data/repo.json"), getJSON("assets/data/releases.json")]);
+        stats = summarize(repo, releases);
+        stats.at = Date.now() - 25 * 60 * 1000; // retry the live API sooner
+      } catch { /* both unavailable */ }
+    }
+    if (stats) {
       try { localStorage.setItem(CACHE, JSON.stringify(stats)); } catch { /* private mode */ }
       applyStats(stats);
-    } catch {
-      if (cached) applyStats(cached); // stale is better than nothing
-      else renderReleases(null);
+    } else if (cached) {
+      applyStats(cached); // stale is better than nothing
+    } else {
+      renderReleases(null);
     }
   }
   loadStats();

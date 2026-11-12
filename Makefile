@@ -3,11 +3,17 @@
 WRAITHVIM ?= ../wraithvim
 PORT ?= 8080
 
-.PHONY: keys serve shots check
+.PHONY: keys serve shots check snapshot
 
 ## keys: regenerate assets/js/keys.js from the WraithVim key registry
 keys:
 	nvim --headless --clean -l scripts/gen-keys.lua $(WRAITHVIM)
+
+## snapshot: save WraithVim release data like the deploy does (fallback data)
+snapshot:
+	@mkdir -p assets/data
+	gh api repos/cachewraith/wraithvim > assets/data/repo.json
+	gh api "repos/cachewraith/wraithvim/releases?per_page=100" > assets/data/releases.json
 
 ## serve: preview at http://localhost:$(PORT)
 serve:

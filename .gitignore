@@ -1,1 +1,3 @@
 .shots/
+# Release snapshot is generated at deploy time (make snapshot for local preview)
+assets/data/

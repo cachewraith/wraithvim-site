@@ -39,8 +39,12 @@ or its automatic source zips. WraithVim's release workflow attaches
 those archives across all releases through
 `https://api.github.com/repos/cachewraith/wraithvim/releases` (unauthenticated,
 cached in `localStorage` for 30 minutes to stay within the 60 requests/hour
-limit). Stars and the latest version come from the same API. If GitHub is
-unreachable the last cached values are shown.
+limit). Stars and the latest version come from the same API.
+
+When the live API fails (for example on a shared network that used up the
+hourly quota), the page reads `assets/data/{repo,releases}.json`, a snapshot
+the Pages workflow saves at deploy time with its own token and refreshes every
+3 hours. `make snapshot` creates it locally.
 
 ## What's new (release notes)
 
