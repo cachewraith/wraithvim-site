@@ -17,7 +17,7 @@ const width = Number(args.width || 1440);
 const height = Number(args.height || 900);
 const out = resolve(args.out || ".shots");
 const chrome = process.env.CHROME || "google-chrome-stable";
-const sections = (args.sections || "dashboard,install,first-steps,keys,features,config").split(",");
+const sections = (args.sections || "dashboard,install,first-steps,keys,features,config,changelog").split(",");
 const port = 9300 + Math.floor(Math.random() * 500);
 const page = args.url || pathToFileURL(resolve("index.html")).href;
 mkdirSync(out, { recursive: true });

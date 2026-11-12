@@ -176,7 +176,7 @@
   /* ---------------------------------------------------------------- */
   /* Live GitHub stats (cached 30 min to respect API limits) */
 
-  const CACHE = "wraithvim-stats-v1";
+  const CACHE = "wraithvim-stats-v2"; // v2 adds release notes
   function countUp(el, value) {
     if (reduceMotion || value < 10) { el.textContent = value.toLocaleString(); return; }
     const start = performance.now();
@@ -192,11 +192,53 @@
     $$("[data-stat=downloads]").forEach((el) => countUp(el, s.downloads));
     $$("[data-stat=version]").forEach((el) => { el.textContent = s.version; });
     $$("[data-stat=stars]").forEach((el) => { el.textContent = `★ ${s.stars.toLocaleString()}`; });
+    renderReleases(s.releases);
+  }
+
+  /* Release notes ("What's new"), rendered from GitHub release bodies. */
+  const releasesEl = $("[data-releases]");
+  const dateFmt = new Intl.DateTimeFormat(undefined, { year: "numeric", month: "short", day: "numeric" });
+  function ago(iso) {
+    const days = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+    if (days <= 0) return "today";
+    if (days === 1) return "yesterday";
+    if (days < 30) return `${days} days ago`;
+    const months = Math.floor(days / 30);
+    return months < 12 ? `${months} month${months > 1 ? "s" : ""} ago` : `${Math.floor(months / 12)} year${months >= 24 ? "s" : ""} ago`;
+  }
+  function renderReleases(list) {
+    if (!releasesEl) return;
+    if (!list || !list.length) {
+      releasesEl.innerHTML = `<li class="log__loading">Could not load release notes right now — <a href="https://github.com/${REPO}/releases">read them on GitHub</a>.</li>`;
+      return;
+    }
+    const md = window.WraithMarkdown;
+    releasesEl.innerHTML = list.map((r, i) => {
+      // "WraithVim v0.5.0 — git graph & easier keys" -> "git graph & easier keys"
+      const fromName = r.name.replace(/^wraithvim\s+v?[\d.]+\s*[—–-]?\s*/i, "");
+      // No subtitle in the release name? Use the notes' first heading.
+      const title = fromName || ((r.body.match(/^#{1,6}\s+(.+)$/m) || [])[1] || "").replace(/[`*]/g, "");
+      const body = md ? md.render(r.body) : `<pre>${esc(r.body)}</pre>`;
+      return `<li class="rel${i === 0 ? " is-latest" : ""}">
+        <details${i === 0 ? " open" : ""}>
+          <summary>
+            <span class="rel__tag">${esc(r.tag)}</span>
+            <span class="rel__title">${esc(title)}</span>
+            ${i === 0 ? '<span class="rel__badge">latest</span>' : ""}
+            <time datetime="${esc(r.date)}" title="${esc(dateFmt.format(new Date(r.date)))}">${esc(ago(r.date))}</time>
+          </summary>
+          <div class="rel__body md">${body}</div>
+          <a class="rel__link" href="${esc(r.url)}" rel="noopener">${esc(r.tag)} on GitHub →</a>
+        </details>
+      </li>`;
+    }).join("");
   }
   async function loadStats() {
     let cached = null;
     try { cached = JSON.parse(localStorage.getItem(CACHE) || "null"); } catch { /* ignore */ }
     if (cached && Date.now() - cached.at < 30 * 60 * 1000) return applyStats(cached);
+    // While loading, show stale notes if we have any.
+    if (cached) renderReleases(cached.releases);
     try {
       const [repo, releases] = await Promise.all([
         fetch(API).then((r) => (r.ok ? r.json() : Promise.reject(r.status))),
@@ -207,11 +249,20 @@
         (sum, r) => sum + r.assets.filter((a) => a.name.endsWith(".tar.gz")).reduce((n, a) => n + a.download_count, 0),
         0,
       );
-      const stats = { at: Date.now(), downloads, stars: repo.stargazers_count, version: published[0]?.tag_name || "latest" };
+      const stats = {
+        at: Date.now(),
+        downloads,
+        stars: repo.stargazers_count,
+        version: published[0]?.tag_name || "latest",
+        releases: published.slice(0, 10).map((r) => ({
+          tag: r.tag_name, name: r.name || "", date: r.published_at, body: r.body || "", url: r.html_url,
+        })),
+      };
       try { localStorage.setItem(CACHE, JSON.stringify(stats)); } catch { /* private mode */ }
       applyStats(stats);
     } catch {
       if (cached) applyStats(cached); // stale is better than nothing
+      else renderReleases(null);
     }
   }
   loadStats();
@@ -274,10 +325,11 @@
   const cmdline = $("[data-cmdline]");
   const cmdInput = $("#cmd-input");
   const siteWk = $("[data-site-wk]");
-  const routes = { i: "#install", f: "#first-steps", k: "#keys", w: "#features", c: "#config" };
+  const routes = { i: "#install", f: "#first-steps", k: "#keys", w: "#features", c: "#config", n: "#changelog" };
   const commands = {
     install: "#install", steps: "#first-steps", "first-steps": "#first-steps", keys: "#keys",
     features: "#features", config: "#config", top: "#dashboard", dashboard: "#dashboard",
+    changelog: "#changelog", news: "#changelog", new: "#changelog",
   };
   let pendingG = false;
 
@@ -296,7 +348,7 @@
     if (!c) return;
     if (commands[c]) return go(commands[c]);
     if (c === "github" || c === "gh") return window.open(`https://github.com/${REPO}`, "_blank", "noopener");
-    if (c === "help" || c === "h") return message("commands: install steps keys features config top github");
+    if (c === "help" || c === "h") return message("commands: install steps keys features config changelog top github");
     if (/^q(uit|a|all)?!?$/.test(c)) return message("Nothing to save. Close the tab when you're done ;)");
     if (/^\d+$/.test(c)) return window.scrollTo({ top: (Number(c) - 1) * lineH, behavior: reduceMotion ? "auto" : "smooth" });
     message(`E492: Not an editor command: ${c}`);

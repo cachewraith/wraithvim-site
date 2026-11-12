@@ -20,8 +20,10 @@ shots:
 	node scripts/shoot.mjs --url http://127.0.0.1:8099/ --width 390 --height 844 ; \
 	kill $$pid
 
-## check: HTML/JS sanity (JS syntax via node, internal anchors exist)
+## check: JS syntax, Markdown renderer tests, internal anchors and assets exist
 check:
 	node --check assets/js/site.js
 	node --check assets/js/keys.js
+	node --check assets/js/markdown.js
+	node --test scripts/test-markdown.mjs
 	@python3 scripts/check-links.py

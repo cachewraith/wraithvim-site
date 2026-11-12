@@ -42,6 +42,17 @@ cached in `localStorage` for 30 minutes to stay within the 60 requests/hour
 limit). Stars and the latest version come from the same API. If GitHub is
 unreachable the last cached values are shown.
 
+## What's new (release notes)
+
+The `changelog.md` section and the "what's new" badge in the hero show the
+newest GitHub releases of WraithVim, rendered from their release notes
+(`assets/js/markdown.js`, a small Markdown renderer that escapes all HTML and
+only allows http(s) links; tests in `scripts/test-markdown.mjs`). Nothing on
+the site needs editing for a release: publish a GitHub release with notes
+written for users and it appears here (visitors' browsers refresh the cached
+data within 30 minutes). Releases without a subtitle in their name use the
+first heading of their notes as the title.
+
 ## The page speaks Vim
 
 `j`/`k` scroll, `gg`/`G` jump to top/bottom, `/` searches the key table, `:`

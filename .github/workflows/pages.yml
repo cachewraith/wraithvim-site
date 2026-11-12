@@ -23,10 +23,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check links and scripts
+      - name: Check links, scripts and the Markdown renderer
         run: |
           node --check assets/js/site.js
           node --check assets/js/keys.js
+          node --check assets/js/markdown.js
+          node --test scripts/test-markdown.mjs
           python3 scripts/check-links.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

@@ -660,6 +660,85 @@ h4 { margin: 0 0 .35rem; font-size: .9rem; }
 @media (max-width: 64rem) { .foot { padding: 2rem 1.25rem 3rem; } }
 
 /* ------------------------------------------------------------------ */
+/* What's new: hero badge + release log drawn like a git graph */
+
+.news {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: .55rem;
+  margin: 0 auto 1.4rem;
+  padding: .4rem .8rem;
+  font: 400 .78rem/1 var(--mono);
+  color: var(--fg-dim);
+  background: var(--bg-dark);
+  border: 1px solid var(--gutter);
+  border-radius: 99px;
+  transition: border-color .2s, color .2s;
+}
+.news:hover { color: var(--fg); border-color: var(--blue); text-decoration: none; }
+.news [data-stat=version] { color: var(--yellow); }
+.news__sep { color: var(--gutter); }
+.news__dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(158, 206, 106, .55); animation: ping 2.4s var(--ease) infinite; }
+@keyframes ping { 70%, 100% { box-shadow: 0 0 0 .45rem rgba(158, 206, 106, 0); } }
+
+.log-wrap { max-width: 50rem; }
+.log { list-style: none; margin: 0; padding: 0 0 0 1.6rem; position: relative; }
+.log::before { content: ""; position: absolute; left: .42rem; top: .9rem; bottom: .9rem; width: 2px; background: var(--gutter); }
+.log__loading { color: var(--muted); padding: .5rem 0; }
+.rel { position: relative; margin-bottom: .6rem; }
+.rel::before {
+  content: "";
+  position: absolute;
+  left: -1.48rem;
+  top: 1rem;
+  width: .7rem;
+  height: .7rem;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--blue);
+}
+.rel.is-latest::before { background: var(--blue); box-shadow: 0 0 0 4px rgba(122, 162, 247, .18); }
+.rel details { background: var(--bg-dark); border: 1px solid #22243a; border-radius: var(--radius); }
+.rel details[open] { border-color: var(--gutter); }
+.rel summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .4rem .8rem;
+  padding: .8rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  font: 400 .9rem/1.4 var(--mono);
+}
+.rel summary::-webkit-details-marker { display: none; }
+.rel summary::before { content: "▸"; color: var(--comment); transition: transform .2s var(--ease); }
+.rel details[open] summary::before { transform: rotate(90deg); color: var(--blue); }
+.rel summary:hover .rel__title { color: var(--fg); }
+.rel__tag { color: var(--yellow); font-weight: 700; }
+.rel__title { color: var(--fg-dim); flex: 1; min-width: 12rem; }
+.rel__badge { font-size: .7rem; color: var(--bg); background: var(--green); padding: .15rem .45rem; border-radius: 3px; }
+.rel time { color: var(--comment); font-size: .78rem; }
+.rel__body { padding: .2rem 1.2rem .4rem 2.15rem; border-top: 1px solid #1f2133; }
+.rel__link { display: inline-block; margin: 0 1.2rem 1rem 2.15rem; font: 400 .8rem/1 var(--mono); }
+
+.md { font-size: .94rem; }
+.md h3, .md h4, .md h5, .md h6 { margin: 1.2rem 0 .5rem; font-size: .95rem; color: var(--fg); }
+.md h4::before { content: "## "; color: var(--comment); }
+.md h5::before { content: "### "; color: var(--comment); }
+.md p { margin: .55rem 0; }
+.md ul, .md ol { margin: .5rem 0; padding-left: 1.3rem; }
+.md li { margin: .25rem 0; }
+.md li::marker { color: var(--blue); }
+.md blockquote { margin: .7rem 0; padding: .1rem 0 .1rem .9rem; border-left: 2px solid var(--magenta); color: var(--muted); }
+.md-code { margin: .7rem 0; padding: .8rem 1rem; overflow-x: auto; background: var(--bg); border: 1px solid #22243a; border-radius: 4px; font-size: .82rem; line-height: 1.6; }
+.md-code code { background: none; padding: 0; color: var(--fg); }
+.md-table { overflow-x: auto; margin: .7rem 0; }
+.md table { border-collapse: collapse; font-size: .86rem; }
+.md th, .md td { text-align: left; padding: .4rem .9rem .4rem 0; border-bottom: 1px solid #1f2133; vertical-align: top; }
+.md th { font: 400 .72rem/1.4 var(--mono); color: var(--comment); text-transform: uppercase; letter-spacing: .05em; }
+
+/* ------------------------------------------------------------------ */
 /* Statusline + command line + site which-key */
 
 .statusline {
@@ -735,6 +814,7 @@ body[data-mode="command"] .sl-mode { background: var(--yellow); }
 .reveal.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
+  .news__dot { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .caret, .picker__cur { animation: none; }
   .win__popup, .win__term, .win__tree, .win__offset, .win__graph { transition: none; }

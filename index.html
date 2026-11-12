@@ -29,6 +29,7 @@
       <a class="tab" href="#keys" data-section="keys"><span class="tab__ico md">#</span>keys.md</a>
       <a class="tab" href="#features" data-section="features"><span class="tab__ico lua">●</span>features.lua</a>
       <a class="tab" href="#config" data-section="config"><span class="tab__ico lua">●</span>config.lua</a>
+      <a class="tab" href="#changelog" data-section="changelog"><span class="tab__ico md">#</span>changelog.md</a>
     </nav>
     <div class="tabline__right">
       <a class="gh" href="https://github.com/cachewraith/wraithvim" rel="noopener">
@@ -49,6 +50,7 @@
   \ \ /\ / / '__/ _` | | __| '_ \ \ / /| | '_ ` _ \
    \ V  V /| | | (_| | | |_| | | \ V / | | | | | | |
     \_/\_/ |_|  \__,_|_|\__|_| |_|\_/  |_|_| |_| |_|</pre>
+        <a class="news" href="#changelog"><span class="news__dot" aria-hidden="true"></span><span data-stat="version">latest</span><span class="news__sep" aria-hidden="true">│</span>what's new<span aria-hidden="true"> →</span></a>
         <h1 id="hero-title" class="dash__title">Neovim that feels like home<span class="caret" aria-hidden="true"></span></h1>
         <p class="dash__lede">
           A lightweight Neovim distribution with the comfort of VS Code —
@@ -63,6 +65,7 @@
           <li><a href="#keys"><span class="item__label">Keys</span><kbd data-key="k">k</kbd></a></li>
           <li><a href="#features"><span class="item__label">What's inside</span><kbd data-key="w">w</kbd></a></li>
           <li><a href="#config"><span class="item__label">Make it yours</span><kbd data-key="c">c</kbd></a></li>
+          <li><a href="#changelog"><span class="item__label">What's new</span><kbd data-key="n">n</kbd></a></li>
           <li><a href="https://github.com/cachewraith/wraithvim" rel="noopener"><span class="item__label">Source on GitHub</span><kbd data-key="g">g</kbd></a></li>
         </ul>
 
@@ -423,6 +426,23 @@
         <p class="final__line"><span class="final__mode">:</span>Ready? <a href="#install">Install WraithVim</a> · read the <a href="https://github.com/cachewraith/wraithvim#readme">docs</a> · star it on <a href="https://github.com/cachewraith/wraithvim">GitHub</a></p>
       </div>
     </section>
+
+    <!-- ================================================================ -->
+    <section id="changelog" class="buffer" data-title="changelog.md" aria-labelledby="changelog-title">
+      <header class="buffer__head">
+        <p class="path">~/.local/share/wraithvim/<b>CHANGELOG.md</b></p>
+        <h2 id="changelog-title">What's new</h2>
+        <p class="lede">Straight from the GitHub release notes, newest first. To get the latest, press
+          <kbd>Space</kbd> <kbd>u</kbd> <kbd>u</kbd> in WraithVim and restart.</p>
+      </header>
+      <div class="log-wrap reveal">
+        <ol class="log" data-releases aria-live="polite">
+          <li class="log__loading">Loading release notes…</li>
+        </ol>
+        <p class="note"><a href="https://github.com/cachewraith/wraithvim/releases">All releases on GitHub →</a>
+          · <a href="https://github.com/cachewraith/wraithvim/blob/main/CHANGELOG.md">full changelog</a></p>
+      </div>
+    </section>
   </main>
 
   <footer class="foot">
@@ -447,18 +467,20 @@
   <form class="cmdline" data-cmdline hidden>
     <label for="cmd-input" class="cmdline__colon">:</label>
     <input id="cmd-input" autocomplete="off" spellcheck="false" aria-label="Command (try install, keys, help)">
-    <span class="cmdline__hint">install · steps · keys · features · config · github · help</span>
+    <span class="cmdline__hint">install · steps · keys · features · config · changelog · help</span>
   </form>
   <div class="wk-site" data-site-wk hidden role="dialog" aria-label="Shortcuts">
     <div class="wk-site__grid">
       <a href="#install"><b>i</b> install</a><a href="#first-steps"><b>f</b> first steps</a>
       <a href="#keys"><b>k</b> keys</a><a href="#features"><b>w</b> what's inside</a>
-      <a href="#config"><b>c</b> config</a><a href="https://github.com/cachewraith/wraithvim"><b>g</b> github</a>
+      <a href="#config"><b>c</b> config</a><a href="#changelog"><b>n</b> what's new</a>
+      <a href="https://github.com/cachewraith/wraithvim"><b>g</b> github</a>
       <span><b>/</b> search keys</span><span><b>:</b> command line</span>
     </div>
   </div>
 
   <script src="assets/js/keys.js" defer></script>
+  <script src="assets/js/markdown.js" defer></script>
   <script src="assets/js/site.js" defer></script>
 </body>
 </html>
