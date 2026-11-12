@@ -660,27 +660,7 @@ h4 { margin: 0 0 .35rem; font-size: .9rem; }
 @media (max-width: 64rem) { .foot { padding: 2rem 1.25rem 3rem; } }
 
 /* ------------------------------------------------------------------ */
-/* What's new: hero badge + release log drawn like a git graph */
-
-.news {
-  display: flex;
-  width: fit-content;
-  align-items: center;
-  gap: .55rem;
-  margin: 0 auto 1.4rem;
-  padding: .4rem .8rem;
-  font: 400 .78rem/1 var(--mono);
-  color: var(--fg-dim);
-  background: var(--bg-dark);
-  border: 1px solid var(--gutter);
-  border-radius: 99px;
-  transition: border-color .2s, color .2s;
-}
-.news:hover { color: var(--fg); border-color: var(--blue); text-decoration: none; }
-.news [data-stat=version] { color: var(--yellow); }
-.news__sep { color: var(--gutter); }
-.news__dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(158, 206, 106, .55); animation: ping 2.4s var(--ease) infinite; }
-@keyframes ping { 70%, 100% { box-shadow: 0 0 0 .45rem rgba(158, 206, 106, 0); } }
+/* What's new: release log drawn like a git graph */
 
 .log-wrap { max-width: 50rem; }
 .log { list-style: none; margin: 0; padding: 0 0 0 1.6rem; position: relative; }
@@ -814,7 +794,6 @@ body[data-mode="command"] .sl-mode { background: var(--yellow); }
 .reveal.is-in { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .news__dot { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   .caret, .picker__cur { animation: none; }
   .win__popup, .win__term, .win__tree, .win__offset, .win__graph { transition: none; }
