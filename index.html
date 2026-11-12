@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WraithVim — a lightweight Neovim distribution</title>
+  <meta name="description" content="WraithVim is a lightweight, VS Code-inspired Neovim distribution: explorer, tabs, LSP, Git graph, three-way merge conflicts and a terminal panel — in about 19 ms, with zero idle CPU.">
+  <meta name="theme-color" content="#16161e">
+  <meta property="og:title" content="WraithVim — a lightweight Neovim distribution">
+  <meta property="og:description" content="VS Code comfort, Neovim speed. Explorer, LSP, Git graph, terminal — 19 ms startup, zero idle CPU.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#install">Skip to install</a>
+
+  <!-- Bufferline: the site navigation -->
+  <header class="tabline" role="banner">
+    <a class="tabline__offset" href="#dashboard" aria-label="WraithVim home">
+      <svg class="logo-mark" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="wv-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7aa2f7"/><stop offset="1" stop-color="#bb9af7"/></linearGradient></defs><path d="M3 7 L10 25 L16 12 L22 25 L29 7" fill="none" stroke="url(#wv-g)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="square"/></svg>
+      <span class="brand">WraithVim</span>
+    </a>
+    <nav class="tabline__tabs" aria-label="Sections">
+      <a class="tab" href="#dashboard" data-section="dashboard"><span class="tab__ico lua">●</span>dashboard</a>
+      <a class="tab" href="#install" data-section="install"><span class="tab__ico sh">$</span>install.sh</a>
+      <a class="tab" href="#first-steps" data-section="first-steps"><span class="tab__ico md">#</span>first-steps.md</a>
+      <a class="tab" href="#keys" data-section="keys"><span class="tab__ico md">#</span>keys.md</a>
+      <a class="tab" href="#features" data-section="features"><span class="tab__ico lua">●</span>features.lua</a>
+      <a class="tab" href="#config" data-section="config"><span class="tab__ico lua">●</span>config.lua</a>
+    </nav>
+    <div class="tabline__right">
+      <a class="gh" href="https://github.com/cachewraith/wraithvim" rel="noopener">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        <span class="gh__name">cachewraith/wraithvim</span>
+        <span class="gh__stars" data-stat="stars" title="GitHub stars">★ —</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ================================================================ -->
+    <section id="dashboard" class="buffer dashboard" data-title="dashboard" aria-labelledby="hero-title">
+      <div class="dash">
+        <pre class="dash__logo" aria-hidden="true"> __        __         _ _   _  __     ___
+ \ \      / / __ __ _(_) |_| |_\ \   / (_)_ __ ___
+  \ \ /\ / / '__/ _` | | __| '_ \ \ / /| | '_ ` _ \
+   \ V  V /| | | (_| | | |_| | | \ V / | | | | | | |
+    \_/\_/ |_|  \__,_|_|\__|_| |_|\_/  |_|_| |_| |_|</pre>
+        <h1 id="hero-title" class="dash__title">Neovim that feels like home<span class="caret" aria-hidden="true"></span></h1>
+        <p class="dash__lede">
+          A lightweight Neovim distribution with the comfort of VS Code —
+          explorer, tabs, search, LSP, a Git graph and a real terminal panel —
+          that still starts in <strong>~19&nbsp;ms</strong> and uses
+          <strong>zero CPU</strong> while you think.
+        </p>
+
+        <ul class="dash__items" aria-label="Jump to">
+          <li><a href="#install"><span class="item__label">Install</span><kbd data-key="i">i</kbd></a></li>
+          <li><a href="#first-steps"><span class="item__label">First steps</span><kbd data-key="f">f</kbd></a></li>
+          <li><a href="#keys"><span class="item__label">Keys</span><kbd data-key="k">k</kbd></a></li>
+          <li><a href="#features"><span class="item__label">What's inside</span><kbd data-key="w">w</kbd></a></li>
+          <li><a href="#config"><span class="item__label">Make it yours</span><kbd data-key="c">c</kbd></a></li>
+          <li><a href="https://github.com/cachewraith/wraithvim" rel="noopener"><span class="item__label">Source on GitHub</span><kbd data-key="g">g</kbd></a></li>
+        </ul>
+
+        <div class="cta">
+          <div class="cmd" data-copy="git clone https://github.com/cachewraith/wraithvim ~/.local/share/wraithvim&#10;~/.local/share/wraithvim/install.sh">
+            <span class="cmd__prompt" aria-hidden="true">❯</span>
+            <code>git clone https://github.com/cachewraith/wraithvim ~/.local/share/wraithvim
+~/.local/share/wraithvim/install.sh</code>
+            <button class="copy" type="button" aria-label="Copy install commands">copy</button>
+          </div>
+          <div class="cta__or">
+            <span>or</span>
+            <a class="btn btn--ghost" href="https://github.com/cachewraith/wraithvim/releases/latest/download/wraithvim.tar.gz">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M7.25 1.5h1.5v7.19l2.47-2.47 1.06 1.06L8 11.56 3.72 7.28l1.06-1.06 2.47 2.47V1.5ZM2 13h12v1.5H2V13Z"/></svg>
+              download <span data-stat="version">latest</span> .tar.gz
+            </a>
+          </div>
+        </div>
+
+        <dl class="lualine" aria-label="Project stats">
+          <div class="seg seg--a"><dt>downloads</dt><dd data-stat="downloads">—</dd></div>
+          <div class="seg seg--b"><dt>release</dt><dd data-stat="version">—</dd></div>
+          <div class="seg seg--c"><dt>startup</dt><dd>19&nbsp;ms</dd></div>
+          <div class="seg seg--c"><dt>idle&nbsp;cpu</dt><dd>0%</dd></div>
+          <div class="seg seg--z"><dt>memory</dt><dd>27&nbsp;MiB</dd></div>
+        </dl>
+        <p class="footnote">Startup, CPU and memory measured on an i7-13620H with
+          <a href="https://github.com/cachewraith/wraithvim/blob/main/docs/performance.md">scripts/benchmark.sh</a>.
+          Downloads count the release archive; most people <code>git clone</code>.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <section id="install" class="buffer" data-title="install.sh" aria-labelledby="install-title">
+      <header class="buffer__head">
+        <p class="path">~/.local/share/wraithvim/<b>install.sh</b></p>
+        <h2 id="install-title">Install in a minute</h2>
+        <p class="lede">You need <b>Neovim 0.12+</b> and <b>Git</b> on Linux. Your existing
+          <code>~/.config/nvim</code> is backed up, never deleted, and nothing needs <code>sudo</code>.</p>
+      </header>
+
+      <ol class="steps">
+        <li class="step reveal">
+          <h3><span class="step__n">1</span>Get the tools</h3>
+          <div class="tabs" data-tabs>
+            <div class="tabs__bar" role="tablist" aria-label="Distribution">
+              <button role="tab" aria-selected="true" aria-controls="os-arch" id="t-arch">Arch / EndeavourOS</button>
+              <button role="tab" aria-selected="false" aria-controls="os-deb" id="t-deb">Ubuntu / Debian / Kali</button>
+              <button role="tab" aria-selected="false" aria-controls="os-fed" id="t-fed">Fedora</button>
+            </div>
+            <div class="tabs__panel" role="tabpanel" id="os-arch" aria-labelledby="t-arch">
+              <div class="cmd" data-copy="sudo pacman -S --needed neovim git ripgrep fd make gcc"><span class="cmd__prompt" aria-hidden="true">❯</span><code>sudo pacman -S --needed neovim git ripgrep fd make gcc</code><button class="copy" type="button" aria-label="Copy">copy</button></div>
+            </div>
+            <div class="tabs__panel" role="tabpanel" id="os-deb" aria-labelledby="t-deb" hidden>
+              <div class="cmd" data-copy="sudo apt install git ripgrep fd-find make gcc curl"><span class="cmd__prompt" aria-hidden="true">❯</span><code>sudo apt install git ripgrep fd-find make gcc curl</code><button class="copy" type="button" aria-label="Copy">copy</button></div>
+              <p class="note">Distro packages of Neovim are usually older than 0.12 — use the
+                <a href="https://github.com/neovim/neovim/releases/latest">official release tarball</a>
+                (<a href="https://github.com/cachewraith/wraithvim/blob/main/docs/installation.md#ubuntu--debian--kali">how</a>).</p>
+            </div>
+            <div class="tabs__panel" role="tabpanel" id="os-fed" aria-labelledby="t-fed" hidden>
+              <div class="cmd" data-copy="sudo dnf install neovim git ripgrep fd-find make gcc"><span class="cmd__prompt" aria-hidden="true">❯</span><code>sudo dnf install neovim git ripgrep fd-find make gcc</code><button class="copy" type="button" aria-label="Copy">copy</button></div>
+            </div>
+          </div>
+          <p class="note">A <a href="https://www.nerdfonts.com/">Nerd Font</a> in your terminal gives you file and folder icons. Not required — WraithVim falls back to plain text.</p>
+        </li>
+
+        <li class="step reveal">
+          <h3><span class="step__n">2</span>Install WraithVim</h3>
+          <div class="cmd" data-copy="git clone https://github.com/cachewraith/wraithvim ~/.local/share/wraithvim&#10;~/.local/share/wraithvim/install.sh">
+            <span class="cmd__prompt" aria-hidden="true">❯</span>
+            <code>git clone https://github.com/cachewraith/wraithvim ~/.local/share/wraithvim
+~/.local/share/wraithvim/install.sh</code>
+            <button class="copy" type="button" aria-label="Copy">copy</button>
+          </div>
+          <p class="note">Want to look first? <code>install.sh --dry-run</code> prints every step and changes nothing.
+            To try it next to your current setup: <code>install.sh --appname wvim</code>, then <code>NVIM_APPNAME=wvim nvim</code>.</p>
+        </li>
+
+        <li class="step reveal">
+          <h3><span class="step__n">3</span>Open it</h3>
+          <div class="cmd" data-copy="nvim"><span class="cmd__prompt" aria-hidden="true">❯</span><code>nvim</code><button class="copy" type="button" aria-label="Copy">copy</button></div>
+          <p class="note">The first start downloads the pinned plugins (a few seconds). Then run
+            <code>:Health</code> to see what is installed and what is optional.</p>
+        </li>
+      </ol>
+
+      <div class="split reveal">
+        <div class="pane">
+          <p class="pane__bar">update</p>
+          <p>Inside WraithVim press <kbd>Space</kbd> <kbd>u</kbd> <kbd>u</kbd> (or type <code>:Update</code>), then restart.
+            Your settings in <code>~/.config/wraithvim/</code> are never touched.</p>
+        </div>
+        <div class="pane">
+          <p class="pane__bar">uninstall</p>
+          <p><code>~/.local/share/wraithvim/uninstall.sh</code> asks before every step, restores your old
+            config from its backup and keeps your settings.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <section id="first-steps" class="buffer" data-title="first-steps.md" aria-labelledby="steps-title">
+      <header class="buffer__head">
+        <p class="path">~/.local/share/wraithvim/docs/<b>first-steps.md</b></p>
+        <h2 id="steps-title">Your first ten minutes</h2>
+        <p class="lede">Coming from VS Code? These are the only things you need. Keys are pressed
+          <em>one after another</em> — <kbd>Space</kbd> <kbd>g</kbd> <kbd>g</kbd> means Space, then g, then g.</p>
+      </header>
+
+      <div class="learn">
+        <ol class="lessons">
+          <li class="lesson reveal" data-scene="modes">
+            <h3>The one new idea: two modes</h3>
+            <p>In <b>Normal</b> mode keys are commands; in <b>Insert</b> mode keys type text.
+              Press <kbd>i</kbd> to start typing and <kbd>Esc</kbd> to stop. The statusline always
+              shows which mode you are in.</p>
+          </li>
+          <li class="lesson reveal" data-scene="space">
+            <h3>Press Space and wait</h3>
+            <p>A popup lists every key you can press next. You never have to memorise anything —
+              <kbd>Space</kbd> <kbd>e</kbd> opens the explorer, <kbd>Space</kbd> <kbd>?</kbd> shows them all.</p>
+          </li>
+          <li class="lesson reveal" data-scene="find">
+            <h3>Find anything</h3>
+            <p><kbd>Space</kbd> <kbd>Space</kbd> finds a file by name, <kbd>Space</kbd> <kbd>/</kbd> searches text in the
+              whole project. Click a file in the explorer to open it.</p>
+          </li>
+          <li class="lesson reveal" data-scene="terminal">
+            <h3>A terminal at the bottom</h3>
+            <p><kbd>Space</kbd> <kbd>t</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd> opens it. Click inside to type,
+              <kbd>Esc</kbd> <kbd>Esc</kbd> to scroll and copy, <b>Hide</b> in its header to tuck it away.</p>
+          </li>
+          <li class="lesson reveal" data-scene="palette">
+            <h3>Forgot a key? Search for it</h3>
+            <p><kbd>Space</kbd> <kbd>p</kbd> (or <kbd>F1</kbd>) lists every action by name with its key —
+              type <i>pull</i>, <i>graph</i>, <i>format</i>, press Enter.</p>
+          </li>
+          <li class="lesson reveal" data-scene="graph">
+            <h3>Git without leaving</h3>
+            <p><kbd>Space</kbd> <kbd>g</kbd> <kbd>g</kbd> draws the commit graph, <kbd>Space</kbd> <kbd>g</kbd> <kbd>s</kbd> shows status,
+              <kbd>Space</kbd> <kbd>g</kbd> <kbd>c</kbd> commits. Merge conflicts open in a three-way view.</p>
+          </li>
+        </ol>
+
+        <figure class="demo" aria-label="Animated WraithVim demo" data-demo>
+          <div class="win">
+            <div class="win__tabs">
+              <span class="win__offset">WraithVim</span>
+              <span class="win__tab is-active">app.ts</span><span class="win__tab">server.ts</span>
+              <span class="win__right">api  main</span>
+            </div>
+            <div class="win__body">
+              <aside class="win__tree" aria-hidden="true">
+                <div class="t-dir">▾ api</div>
+                <div class="t-dir t-in">▸ node_modules</div>
+                <div class="t-dir t-in">▾ src</div>
+                <div class="t-file t-in2 is-current">app.ts</div>
+                <div class="t-file t-in2">routes.ts</div>
+                <div class="t-file t-in2">server.ts</div>
+                <div class="t-file t-in">package.json</div>
+                <div class="t-file t-in">README.md</div>
+              </aside>
+              <div class="win__code" aria-hidden="true">
+<pre><span class="ln">1</span><span class="k">import</span> express <span class="k">from</span> <span class="s">"express"</span>
+<span class="ln">2</span><span class="k">import</span> { routes } <span class="k">from</span> <span class="s">"./routes"</span>
+<span class="ln">3</span>
+<span class="ln">4</span><span class="k">const</span> app = <span class="f">express</span>()
+<span class="ln">5</span>app.<span class="f">use</span>(<span class="s">"/api"</span>, routes)
+<span class="ln">6</span>
+<span class="ln">7</span><span class="k">export default</span> app<span class="typed" data-typed></span></pre>
+              </div>
+              <div class="win__popup win__wk" aria-hidden="true">
+                <div class="wk__row"><b>␣</b> Find file</div><div class="wk__row"><b>/</b> Search text</div>
+                <div class="wk__row"><b>e</b> Explorer</div><div class="wk__row"><b>t</b> Terminal</div>
+                <div class="wk__row"><b>p</b> Actions</div><div class="wk__row"><b>x</b> Close tab</div>
+                <div class="wk__row g">+f Find</div><div class="wk__row g">+g Git</div>
+                <div class="wk__row g">+u Update &amp; tools</div><div class="wk__row g">+w Windows</div>
+              </div>
+              <div class="win__popup win__picker" aria-hidden="true">
+                <div class="picker__prompt">❯ <span class="picker__q" data-q></span><span class="picker__cur"></span></div>
+                <div class="picker__list" data-results></div>
+              </div>
+              <div class="win__term" aria-hidden="true">
+                <div class="term__bar"><span>▶ TERMINAL</span><span>bash</span><span class="term__btns">New Hide Kill</span></div>
+                <div class="term__body"><span class="pr">❯</span> <span data-term></span><span class="picker__cur"></span></div>
+              </div>
+              <div class="win__graph" aria-hidden="true">
+<pre><span class="g1">●</span> <span class="h">c41e9a2</span> <span class="d">(HEAD -> main)</span> feat: add /health route
+<span class="g1">●</span><span class="g2">─╮</span> <span class="h">8b07d13</span> Merge branch 'auth'
+<span class="g1">│</span> <span class="g2">●</span> <span class="h">5f2ac40</span> <span class="d">(auth)</span> feat: login with tokens
+<span class="g1">│</span> <span class="g2">●</span> <span class="h">e9d1b77</span> refactor: split routes
+<span class="g1">●</span><span class="g2">─╯</span> <span class="h">2a6f0c8</span> fix: handle empty body
+<span class="g1">●</span> <span class="h">7c3d915</span> <span class="d">(tag: v1.0.0)</span> chore: first release</pre>
+              </div>
+            </div>
+            <div class="win__status">
+              <span class="st-mode" data-mode>NORMAL</span><span class="st-b"> main</span><span class="st-c" data-file>src/app.ts</span>
+              <span class="st-fill"></span><span class="st-x">typescript</span><span class="st-y">utf-8</span><span class="st-z">7:18</span>
+            </div>
+          </div>
+          <figcaption class="demo__keys">
+            <span class="demo__label" data-caption>Watch the keys</span>
+            <span class="demo__pressed" data-pressed aria-live="polite"></span>
+            <button class="demo__replay" type="button" data-replay aria-label="Replay demo">↻ replay</button>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="cheats reveal">
+        <div class="cheat"><h4>Save &amp; close</h4><p><kbd>Ctrl</kbd>+<kbd>S</kbd> save · <kbd>Space</kbd> <kbd>x</kbd> close tab · <kbd>Space</kbd> <kbd>q</kbd> quit</p></div>
+        <div class="cheat"><h4>Move around</h4><p>Click tabs and files, scroll with the wheel, drag split edges to resize.</p></div>
+        <div class="cheat"><h4>Code</h4><p><kbd>gd</kbd> definition · <kbd>K</kbd> hover · <kbd>Space</kbd> <kbd>c</kbd> <kbd>a</kbd> fix · <kbd>Space</kbd> <kbd>r</kbd> <kbd>n</kbd> rename</p></div>
+        <div class="cheat"><h4>Stay current</h4><p><kbd>Space</kbd> <kbd>u</kbd> <kbd>u</kbd> update · <kbd>Space</kbd> <kbd>u</kbd> <kbd>h</kbd> health check</p></div>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <section id="keys" class="buffer" data-title="keys.md" aria-labelledby="keys-title">
+      <header class="buffer__head">
+        <p class="path">~/.local/share/wraithvim/docs/<b>keys.md</b></p>
+        <h2 id="keys-title">Every key, searchable</h2>
+        <p class="lede">Generated from WraithVim's own key registry (<span data-keys-version></span>), so it is always right.
+          <kbd>Shift</kbd>+<kbd>P</kbd> means hold Shift and press P.</p>
+      </header>
+
+      <div class="keys reveal">
+        <div class="keys__tools">
+          <label class="search">
+            <span class="search__slash" aria-hidden="true">/</span>
+            <input type="search" placeholder="search keys — try “git”, “terminal”, “ctrl”" data-key-search aria-label="Search keys">
+          </label>
+          <div class="chips" role="toolbar" aria-label="Filter by group" data-key-groups></div>
+        </div>
+        <div class="keys__table" role="region" aria-live="polite" aria-label="Key list">
+          <table>
+            <thead><tr><th scope="col">Press</th><th scope="col">Does</th><th scope="col">Group</th></tr></thead>
+            <tbody data-key-rows></tbody>
+          </table>
+          <p class="keys__empty" data-key-empty hidden>No key matches — try <code>Space p</code> inside WraithVim.</p>
+        </div>
+        <p class="note">VS Code keys need <code>return { preset = "vscode" }</code> in <code>~/.config/wraithvim/keymaps.lua</code>.</p>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <section id="features" class="buffer" data-title="features.lua" aria-labelledby="features-title">
+      <header class="buffer__head">
+        <p class="path">~/.local/share/wraithvim/lua/wraithvim/<b>features.lua</b></p>
+        <h2 id="features-title">What's inside</h2>
+        <p class="lede">An IDE's worth of tools, loaded only when you use them.</p>
+      </header>
+
+      <div class="splits">
+        <article class="pane reveal">
+          <p class="pane__bar">editor</p>
+          <ul class="ticks">
+            <li>File explorer with icons, Git status and single-click open</li>
+            <li>Clickable tabs, dashboard, notifications</li>
+            <li>Fuzzy find files and text (ripgrep, fd)</li>
+            <li>Full mouse support — click, drag, scroll, select</li>
+            <li>Default, compact and minimal layouts</li>
+          </ul>
+        </article>
+        <article class="pane reveal">
+          <p class="pane__bar">git</p>
+          <ul class="ticks">
+            <li>Commit graph of all branches</li>
+            <li>Change markers, stage &amp; undo hunks, blame</li>
+            <li>Status, commit, amend, push, pull, branches</li>
+            <li>Side-by-side diffs and file history</li>
+            <li>Three-way merge conflicts on Git's index stages</li>
+          </ul>
+        </article>
+        <article class="pane reveal">
+          <p class="pane__bar">code</p>
+          <ul class="ticks">
+            <li>Native LSP: definition, references, rename, fixes</li>
+            <li>Completion with snippets</li>
+            <li>Format on demand or on save</li>
+            <li>Treesitter highlighting, on demand</li>
+            <li>Nothing installed behind your back (Mason optional)</li>
+          </ul>
+        </article>
+        <article class="pane pane--wide reveal">
+          <p class="pane__bar">languages</p>
+          <table class="langs">
+            <thead><tr><th>Language</th><th>Language server</th><th>Formatter</th></tr></thead>
+            <tbody>
+              <tr><td>PHP</td><td>intelephense</td><td>pint</td></tr>
+              <tr><td>JavaScript / TypeScript</td><td>vtsls</td><td>prettier</td></tr>
+              <tr><td>Python</td><td>basedpyright</td><td>ruff</td></tr>
+              <tr><td>Go</td><td>gopls</td><td>gofumpt</td></tr>
+              <tr><td>C / C++</td><td>clangd</td><td>clang-format</td></tr>
+              <tr><td>Java</td><td>jdtls</td><td>google-java-format</td></tr>
+              <tr><td>Lua</td><td>lua-language-server</td><td>stylua</td></tr>
+              <tr><td>SQL · Bash · YAML</td><td>sqls · bashls · yamlls</td><td>sql-formatter · shfmt · prettier</td></tr>
+            </tbody>
+          </table>
+          <p class="note">Each starts only when its tool is installed and a matching file is open.</p>
+        </article>
+        <article class="pane pane--perf reveal">
+          <p class="pane__bar">performance</p>
+          <div class="meters">
+            <div class="meter"><span class="meter__v" data-count="19">19</span><span class="meter__u">ms</span><span class="meter__l">startup</span></div>
+            <div class="meter"><span class="meter__v" data-count="0">0</span><span class="meter__u">%</span><span class="meter__l">idle CPU</span></div>
+            <div class="meter"><span class="meter__v" data-count="27">27</span><span class="meter__u">MiB</span><span class="meter__l">memory</span></div>
+            <div class="meter"><span class="meter__v" data-count="55">55</span><span class="meter__u">ms</span><span class="meter__l">LSP ready</span></div>
+          </div>
+          <p class="note">No timers, no polling, no file watchers while you are idle. Enforced by the test suite.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================================================================ -->
+    <section id="config" class="buffer" data-title="config.lua" aria-labelledby="config-title">
+      <header class="buffer__head">
+        <p class="path">~/.config/wraithvim/</p>
+        <h2 id="config-title">Make it yours</h2>
+        <p class="lede">Your settings live in small files that updates never touch. Mistakes are reported, not fatal.</p>
+      </header>
+
+      <div class="tabs tabs--code reveal" data-tabs>
+        <div class="tabs__bar" role="tablist" aria-label="Settings file">
+          <button role="tab" aria-selected="true" aria-controls="cfg-keys" id="c-keys">keymaps.lua</button>
+          <button role="tab" aria-selected="false" aria-controls="cfg-ui" id="c-ui">ui.lua</button>
+          <button role="tab" aria-selected="false" aria-controls="cfg-lang" id="c-lang">languages.lua</button>
+          <button role="tab" aria-selected="false" aria-controls="cfg-opt" id="c-opt">options.lua</button>
+        </div>
+<div class="tabs__panel code" role="tabpanel" id="cfg-keys" aria-labelledby="c-keys"><pre><span class="c">-- VS Code shortcuts: Ctrl+P, Ctrl+B, Ctrl+`, Ctrl+/, F12 …</span>
+<span class="k">return</span> {
+  preset <span class="o">=</span> <span class="s">"vscode"</span>,
+  disable <span class="o">=</span> { <span class="s">"s"</span>, <span class="s">"S"</span> },        <span class="c">-- remove keys you don't want</span>
+  { <span class="s">"n"</span>, <span class="s">"&lt;leader&gt;qq"</span>, <span class="s">"&lt;cmd&gt;qa&lt;cr&gt;"</span>, desc <span class="o">=</span> <span class="s">"Quit all"</span> },
+}</pre></div>
+<div class="tabs__panel code" role="tabpanel" id="cfg-ui" aria-labelledby="c-ui" hidden><pre><span class="k">return</span> {
+  preset <span class="o">=</span> <span class="s">"default"</span>,            <span class="c">-- default | compact | minimal</span>
+  theme <span class="o">=</span> { style <span class="o">=</span> <span class="s">"night"</span> },     <span class="c">-- tokyonight: night | storm | moon | day</span>
+  icons <span class="o">=</span> { nerd_font <span class="o">=</span> <span class="n">true</span> },
+  explorer <span class="o">=</span> { width <span class="o">=</span> <span class="n">34</span> },
+  terminal <span class="o">=</span> { shell <span class="o">=</span> <span class="s">"fish"</span>, height <span class="o">=</span> <span class="n">14</span> },
+}</pre></div>
+<div class="tabs__panel code" role="tabpanel" id="cfg-lang" aria-labelledby="c-lang" hidden><pre><span class="k">return</span> {
+  java <span class="o">=</span> <span class="n">false</span>,                    <span class="c">-- turn a language off</span>
+  php <span class="o">=</span> { formatters <span class="o">=</span> { pint <span class="o">=</span> <span class="n">false</span> } },
+  zig <span class="o">=</span> {                           <span class="c">-- or add your own</span>
+    filetypes <span class="o">=</span> { <span class="s">"zig"</span> },
+    servers <span class="o">=</span> { zls <span class="o">=</span> { cmd <span class="o">=</span> <span class="s">"zls"</span> } },
+  },
+}</pre></div>
+<div class="tabs__panel code" role="tabpanel" id="cfg-opt" aria-labelledby="c-opt" hidden><pre><span class="k">return</span> {
+  format <span class="o">=</span> { on_save <span class="o">=</span> <span class="n">true</span> },
+  mason <span class="o">=</span> { enabled <span class="o">=</span> <span class="n">true</span> },        <span class="c">-- optional tool installer, asks first</span>
+  opt <span class="o">=</span> { relativenumber <span class="o">=</span> <span class="n">true</span>, wrap <span class="o">=</span> <span class="n">true</span> },
+}</pre></div>
+      </div>
+
+      <div class="final reveal">
+        <p class="final__line"><span class="final__mode">:</span>Ready? <a href="#install">Install WraithVim</a> · read the <a href="https://github.com/cachewraith/wraithvim#readme">docs</a> · star it on <a href="https://github.com/cachewraith/wraithvim">GitHub</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>WraithVim is MIT-licensed and built in the open. <a href="https://github.com/cachewraith/wraithvim/releases">Releases</a> ·
+      <a href="https://github.com/cachewraith/wraithvim/blob/main/CHANGELOG.md">Changelog</a> ·
+      <a href="https://github.com/cachewraith/wraithvim/tree/main/docs">Docs</a> ·
+      <a href="https://github.com/cachewraith/wraithvim/issues">Issues</a></p>
+    <p class="foot__hint">This page speaks Vim: <kbd>j</kbd>/<kbd>k</kbd> scroll · <kbd>g</kbd><kbd>g</kbd>/<kbd>G</kbd> top/bottom · <kbd>/</kbd> search keys · <kbd>:</kbd> commands · <kbd>Space</kbd> menu</p>
+  </footer>
+
+  <!-- Statusline (fixed) + command line -->
+  <div class="statusline" aria-hidden="true">
+    <span class="sl-mode" data-sl-mode>NORMAL</span>
+    <span class="sl-b"> main</span>
+    <span class="sl-c" data-sl-file>dashboard</span>
+    <span class="sl-msg" data-sl-msg></span>
+    <span class="sl-fill"></span>
+    <span class="sl-x">utf-8</span>
+    <span class="sl-y" data-sl-pct>Top</span>
+    <span class="sl-z" data-sl-ln>1:1</span>
+  </div>
+  <form class="cmdline" data-cmdline hidden>
+    <label for="cmd-input" class="cmdline__colon">:</label>
+    <input id="cmd-input" autocomplete="off" spellcheck="false" aria-label="Command (try install, keys, help)">
+    <span class="cmdline__hint">install · steps · keys · features · config · github · help</span>
+  </form>
+  <div class="wk-site" data-site-wk hidden role="dialog" aria-label="Shortcuts">
+    <div class="wk-site__grid">
+      <a href="#install"><b>i</b> install</a><a href="#first-steps"><b>f</b> first steps</a>
+      <a href="#keys"><b>k</b> keys</a><a href="#features"><b>w</b> what's inside</a>
+      <a href="#config"><b>c</b> config</a><a href="https://github.com/cachewraith/wraithvim"><b>g</b> github</a>
+      <span><b>/</b> search keys</span><span><b>:</b> command line</span>
+    </div>
+  </div>
+
+  <script src="assets/js/keys.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+</body>
+</html>
