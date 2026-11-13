@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write # push clone counts to the data branch
   pages: write
   id-token: write
 
@@ -42,6 +42,31 @@ jobs:
           gh api repos/cachewraith/wraithvim > assets/data/repo.json
           gh api "repos/cachewraith/wraithvim/releases?per_page=100" > assets/data/releases.json
           python3 -c "import json; d=json.load(open('assets/data/releases.json')); print(len(d), 'releases snapshotted')"
+      # Clone traffic needs a token that can read cachewraith/wraithvim's
+      # settings (fine-grained, Administration: read-only) in the TRAFFIC_TOKEN
+      # secret. GitHub keeps 14 days of it, so the history lives on the data
+      # branch; without the secret the saved counts are published unchanged.
+      - name: Update clone counts
+        continue-on-error: true
+        env:
+          TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_TOKEN }}
+        run: |
+          dir="$RUNNER_TEMP/data"
+          if git fetch --quiet origin data; then
+            git worktree add --quiet -B data "$dir" FETCH_HEAD
+          else
+            git worktree add --quiet --orphan -b data "$dir"
+          fi
+          python3 scripts/clones.py "$dir/clones.json"
+          [ -f "$dir/clones.json" ] || exit 0
+          cp "$dir/clones.json" assets/data/clones.json
+          cd "$dir"
+          git add clones.json
+          git diff --cached --quiet && exit 0
+          git -c user.name="github-actions[bot]" \
+            -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit --quiet -m "data: clone counts"
+          git push --quiet origin data
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -282,6 +282,12 @@
   }
   loadStats();
 
+  // Clone count saved at deploy time: GitHub shows clone traffic only to the
+  // repo owner, so the page cannot ask the API itself.
+  getJSON("assets/data/clones.json")
+    .then((c) => $$("[data-stat=clones]").forEach((el) => countUp(el, c.total)))
+    .catch(() => { /* keep "—" */ });
+
   /* ---------------------------------------------------------------- */
   /* Key reference */
 

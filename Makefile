@@ -14,6 +14,7 @@ snapshot:
 	@mkdir -p assets/data
 	gh api repos/cachewraith/wraithvim > assets/data/repo.json
 	gh api "repos/cachewraith/wraithvim/releases?per_page=100" > assets/data/releases.json
+	TRAFFIC_TOKEN=$$(gh auth token) python3 scripts/clones.py assets/data/clones.json
 
 ## serve: preview at http://localhost:$(PORT)
 serve:
